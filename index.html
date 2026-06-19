@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>青盾成长助手</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="rail" aria-label="应用概览">
+        <div class="brand-lockup">
+          <div class="brand-mark">盾</div>
+          <div>
+            <p class="eyebrow">QINGDUN</p>
+            <h1>青盾成长助手</h1>
+          </div>
+        </div>
+        <div class="rail-summary">
+          <p class="summary-label">当前孩子</p>
+          <strong id="railChildName">小澄</strong>
+          <span id="railChildMeta">13岁 · 初一</span>
+        </div>
+        <div class="rail-card">
+          <p class="summary-label">本周重点</p>
+          <p id="railFocus">睡前停用与短视频边界</p>
+        </div>
+        <nav class="rail-nav" aria-label="桌面导航">
+          <button class="nav-button active" data-view="dashboard" type="button" title="首页">
+            <i data-lucide="layout-dashboard" data-fallback="首"></i>
+            <span>首页</span>
+          </button>
+          <button class="nav-button" data-view="assessment" type="button" title="测评">
+            <i data-lucide="clipboard-check" data-fallback="测"></i>
+            <span>测评</span>
+          </button>
+          <button class="nav-button" data-view="report" type="button" title="报告">
+            <i data-lucide="radar" data-fallback="报"></i>
+            <span>报告</span>
+          </button>
+          <button class="nav-button" data-view="contract" type="button" title="契约">
+            <i data-lucide="file-check-2" data-fallback="契"></i>
+            <span>契约</span>
+          </button>
+          <button class="nav-button" data-view="guidance" type="button" title="建议">
+            <i data-lucide="messages-square" data-fallback="议"></i>
+            <span>建议</span>
+          </button>
+        </nav>
+      </aside>
+
+      <main class="phone-stage">
+        <div class="mobile-app" role="application" aria-label="青盾成长助手家长端">
+          <header class="topbar">
+            <button class="icon-button" type="button" id="profileButton" title="编辑孩子档案">
+              <i data-lucide="user-round-cog" data-fallback="档"></i>
+            </button>
+            <div>
+              <p class="eyebrow">家庭守护</p>
+              <h2 id="screenTitle">今日概览</h2>
+            </div>
+            <button class="icon-button" type="button" id="resetButton" title="重置演示数据">
+              <i data-lucide="rotate-ccw" data-fallback="重"></i>
+            </button>
+          </header>
+
+          <section class="view active" id="dashboard" aria-labelledby="dashboardTitle">
+            <div class="hero-band">
+              <div>
+                <p class="section-kicker">数字驾照状态</p>
+                <h3 id="dashboardTitle"><span id="childName">小澄</span> · <span id="licenseLevel">L1 基础合格</span></h3>
+                <p id="heroAdvice">建议本周先建立睡前 1 小时无屏幕时间。</p>
+              </div>
+              <div class="license-ring" aria-label="综合分">
+                <svg viewBox="0 0 120 120" role="img" aria-labelledby="scoreLabel">
+                  <title id="scoreLabel">综合分</title>
+                  <circle class="ring-bg" cx="60" cy="60" r="48"></circle>
+                  <circle class="ring-value" id="scoreRing" cx="60" cy="60" r="48"></circle>
+                </svg>
+                <strong id="totalScore">66</strong>
+                <span>分</span>
+              </div>
+            </div>
+
+            <div class="status-grid" aria-label="风险摘要">
+              <article class="metric-tile">
+                <span>风险等级</span>
+                <strong id="riskLevel">中风险</strong>
+              </article>
+              <article class="metric-tile">
+                <span>契约完成</span>
+                <strong id="contractProgress">2/5</strong>
+              </article>
+              <article class="metric-tile">
+                <span>连续复盘</span>
+                <strong id="reviewStreak">3天</strong>
+              </article>
+            </div>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">今日建议</p>
+                  <h3>家长可以先做这三件事</h3>
+                </div>
+                <button class="text-button" data-view-jump="guidance" type="button">查看</button>
+              </div>
+              <div class="action-list" id="todayActions"></div>
+            </section>
+
+            <section class="panel accent-panel">
+              <div>
+                <p class="section-kicker">下一步</p>
+                <h3>完成一次数字驾照测评，刷新家庭建议</h3>
+              </div>
+              <button class="primary-button" data-view-jump="assessment" type="button">
+                <i data-lucide="play" data-fallback="开"></i>
+                开始测评
+              </button>
+            </section>
+          </section>
+
+          <section class="view" id="assessment" aria-labelledby="assessmentTitle">
+            <div class="panel">
+              <p class="section-kicker">数字驾照测评</p>
+              <h3 id="assessmentTitle">用情境题判断孩子的风险识别能力</h3>
+              <div class="progress-track" aria-label="测评进度">
+                <span id="quizProgressBar"></span>
+              </div>
+              <p class="progress-copy" id="quizProgressText">第 1 / 8 题</p>
+            </div>
+
+            <article class="quiz-card" id="quizCard">
+              <p class="question-tag" id="questionDimension">数字健康</p>
+              <h3 id="questionText">题目加载中</h3>
+              <div class="choice-list" id="choiceList"></div>
+            </article>
+
+            <div class="quiz-actions">
+              <button class="ghost-button" id="prevQuestion" type="button">
+                <i data-lucide="arrow-left" data-fallback="←"></i>
+                上一题
+              </button>
+              <button class="primary-button" id="nextQuestion" type="button">
+                下一题
+                <i data-lucide="arrow-right" data-fallback="→"></i>
+              </button>
+            </div>
+          </section>
+
+          <section class="view" id="report" aria-labelledby="reportTitle">
+            <div class="panel report-hero">
+              <div>
+                <p class="section-kicker">用网风险报告</p>
+                <h3 id="reportTitle"><span id="reportLevel">中风险</span> · <span id="reportScore">66</span> 分</h3>
+                <p id="reportSummary">孩子具备基础安全意识，但自我管理和反诈识别仍需要家庭支持。</p>
+              </div>
+            </div>
+
+            <section class="panel chart-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">五维能力</p>
+                  <h3>风险结构</h3>
+                </div>
+                <span class="pill" id="weakestDimension">短板：数字健康</span>
+              </div>
+              <canvas id="radarChart" width="320" height="260" aria-label="五维能力雷达图"></canvas>
+              <div class="dimension-list" id="dimensionList"></div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">本周优先级</p>
+                  <h3>建议先关注</h3>
+                </div>
+              </div>
+              <div class="priority-list" id="priorityList"></div>
+            </section>
+          </section>
+
+          <section class="view" id="contract" aria-labelledby="contractTitle">
+            <div class="panel">
+              <p class="section-kicker">家庭用网契约</p>
+              <h3 id="contractTitle">把规则做成可协商、可复盘的约定</h3>
+              <p class="muted">建议每周只保留 3 到 5 条重点规则。孩子可以参与确认，家长负责给出鼓励性反馈。</p>
+            </div>
+            <div class="contract-list" id="contractList"></div>
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="section-kicker">每周复盘</p>
+                  <h3>这周执行得怎么样</h3>
+                </div>
+              </div>
+              <div class="segmented" role="group" aria-label="复盘评价">
+                <button class="segment active" data-review="稳定执行" type="button">稳定执行</button>
+                <button class="segment" data-review="偶尔需要提醒" type="button">需提醒</button>
+                <button class="segment" data-review="需要重新协商" type="button">重协商</button>
+              </div>
+              <label class="field-label" for="reviewNote">给孩子的反馈</label>
+              <textarea id="reviewNote" rows="4">这周能主动在睡前放下手机，值得肯定。下周我们一起把短视频时间再往前挪一点。</textarea>
+              <button class="primary-button full-width" id="saveReview" type="button">
+                <i data-lucide="save" data-fallback="存"></i>
+                保存复盘
+              </button>
+            </section>
+          </section>
+
+          <section class="view" id="guidance" aria-labelledby="guidanceTitle">
+            <div class="panel">
+              <p class="section-kicker">家长建议中心</p>
+              <h3 id="guidanceTitle">按场景给出可直接使用的话术</h3>
+            </div>
+
+            <div class="scenario-tabs" id="scenarioTabs" role="tablist" aria-label="场景选择"></div>
+            <article class="panel guidance-card" id="guidanceCard"></article>
+          </section>
+
+          <footer class="bottom-nav" aria-label="底部导航">
+            <button class="nav-button active" data-view="dashboard" type="button" title="首页">
+              <i data-lucide="layout-dashboard" data-fallback="首"></i>
+              <span>首页</span>
+            </button>
+            <button class="nav-button" data-view="assessment" type="button" title="测评">
+              <i data-lucide="clipboard-check" data-fallback="测"></i>
+              <span>测评</span>
+            </button>
+            <button class="nav-button" data-view="report" type="button" title="报告">
+              <i data-lucide="radar" data-fallback="报"></i>
+              <span>报告</span>
+            </button>
+            <button class="nav-button" data-view="contract" type="button" title="契约">
+              <i data-lucide="file-check-2" data-fallback="契"></i>
+              <span>契约</span>
+            </button>
+            <button class="nav-button" data-view="guidance" type="button" title="建议">
+              <i data-lucide="messages-square" data-fallback="议"></i>
+              <span>建议</span>
+            </button>
+          </footer>
+        </div>
+      </main>
+    </div>
+
+    <dialog id="profileDialog" class="profile-dialog">
+      <form method="dialog" id="profileForm">
+        <div class="panel-head">
+          <div>
+            <p class="section-kicker">孩子档案</p>
+            <h3>编辑演示信息</h3>
+          </div>
+          <button class="icon-button" value="cancel" type="submit" title="关闭">
+            <i data-lucide="x" data-fallback="×"></i>
+          </button>
+        </div>
+        <label class="field-label" for="profileName">昵称</label>
+        <input id="profileName" name="profileName" autocomplete="off" />
+        <label class="field-label" for="profileAge">年龄</label>
+        <input id="profileAge" name="profileAge" autocomplete="off" />
+        <label class="field-label" for="profileGrade">年级</label>
+        <input id="profileGrade" name="profileGrade" autocomplete="off" />
+        <button class="primary-button full-width" value="default" type="submit">保存</button>
+      </form>
+    </dialog>
+  </body>
+</html>
